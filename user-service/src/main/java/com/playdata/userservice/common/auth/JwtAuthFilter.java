@@ -29,7 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException {
         // 게이트웨이가 토큰 내 클레링ㅁ을 헤더에 담아서 보내준다.
         String userEmail = request.getHeader("X-User-Email");
-        String userRole = request.getHeader("X=User-Role");
+        String userRole = request.getHeader("X-User-Role");
         log.info("userEmail:{} userRole:{}", userEmail, userRole);
 
         if (userEmail != null && userRole != null) {

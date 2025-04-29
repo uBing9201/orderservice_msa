@@ -20,7 +20,7 @@ spring:
 #          - Path=/user-service/doLogin
 #          - Method=POST
 #        - filters:
-#          - RemoveRequestHeader
+#          - RemoveRequestHeader=Cookie
 #          - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 #          - AuthorizationHeaderFilter
 
