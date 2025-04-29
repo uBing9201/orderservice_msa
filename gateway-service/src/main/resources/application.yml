@@ -13,6 +13,17 @@ spring:
             preLogger: false
             postLogger: true
       routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            # 요청이 서비스로 전달되기 전 헤더에서 제거하고자 하는 값이 있을 때 사용하는 필터 (기본 제공)
+            - RemoveRequestHeader
+            # 요청 경로를 특정 패턴에 따라 새로운 경로로 변환 -> 정규표현식 사용 가능 (자유도 높음)
+            # ex) /user-service/users/123 -> /users/123만 추출해서 요청 전달
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: first-service
           uri: lb://FIRST-SERVICE
           predicates:
@@ -32,9 +43,6 @@ spring:
                 preLogger: false
                 postLogger: true
 
-
-
-
 eureka:
   client:
     register-with-eureka: true
@@ -42,7 +50,12 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+jwt:
+  expiration: 30
+  secretKey: rI9KLc/nWq+0ehvbQXjST52lIHi+A4PurdKwAe0ZcN+0LE1QBv7p0qhFx8wzt8PaigtMXpJHdIl6p4ILsLDasA==
 
+  expirationRt: 14400
+  secretKeyRt: rI9KLc/nWq+0ehvbQXjST52lIHi+A4PurdKwAe0ZcN+0LE1QBv7p0qhFx8wzt8PaigtMXpJHdIl6p4ILsLDasA==
 
 
 
