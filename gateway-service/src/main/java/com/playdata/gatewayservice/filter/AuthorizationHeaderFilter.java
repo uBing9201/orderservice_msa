@@ -3,6 +3,8 @@ package com.playdata.gatewayservice.filter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -24,9 +27,23 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory {
     @Value("${jwt.secretKey}")
     String secretKey;
 
+    private final List<String> allowUrl = Arrays.asList(
+            "/create", "/doLogin", "/refresh"
+    );
+
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
+            String path = exchange.getRequest().getURI().getPath();
+            AntPathMatcher antPathMatcher = new AntPathMatcher();
+            // 허용 url 리스트를 순회하면서 지금 들어온 요청 url과 하나라도 일치한다면 ture 리턴
+            boolean isAllowed = allowUrl.stream().anyMatch(url -> antPathMatcher.match("/user"+url, path));
+
+            if (isAllowed) {
+                // 허용 url이 맞다면 그냥 통과
+                return chain.filter(exchange);
+            }
+
             // 토큰이 필요한 요청은 Header에 Authorization 이라는 이름으로 Bearer ~~~가 전달됨.
             String authorizationHeader
                     = exchange.getRequest()
