@@ -8,4 +8,19 @@ spring:
     config:
       server:
         git:
-          uri: file:///Users/ubing/Desktop/playdata/git-local-repo
+          uri: file:///Users/stephen/Desktop/playdata_8th_develop/git-local-repo
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, refresh, beans
+
+
+
+
+
+
+
+
+
