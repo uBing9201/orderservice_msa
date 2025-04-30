@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +82,24 @@ public class ProductContoller {
         CommonResDto dto = new CommonResDto(HttpStatus.OK, "삭제 완료", id);
 
         return ResponseEntity.ok().body(dto);
+    }
+
+    // 단일 상품 조회
+    @GetMapping("/{prodId}")
+    public ResponseEntity<?> getProductById(@PathVariable Long prodId) {
+        log.info("getProductById: prodId: {}", prodId);
+        ProductResDto dto = productService.getProductInfo(prodId);
+        CommonResDto resDto = new CommonResDto(HttpStatus.OK, "조회 완료", dto);
+        return ResponseEntity.ok().body(resDto);
+    }
+
+    // 수량 업데이트
+    @PatchMapping("/updateQuantity")
+    public ResponseEntity<?> updateStockQuantity(@RequestParam Long productId, @RequestParam int stockQuantity) {
+        log.info("/product/updateQuantity: Patch, productId: {}, stockQuantity: {}", productId, stockQuantity);
+        productService.updateStockQuantity(productId, stockQuantity);
+        CommonResDto resDto = new CommonResDto(HttpStatus.OK, "변경 완료", productId);
+        return ResponseEntity.ok().body(resDto);
     }
 
 }
