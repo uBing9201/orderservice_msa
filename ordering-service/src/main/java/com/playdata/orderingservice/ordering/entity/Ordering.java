@@ -1,17 +1,12 @@
 package com.playdata.orderingservice.ordering.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -31,6 +26,8 @@ public class Ordering {
     private User user;
     */
 
+    // 프로젝트가 나눠지면서 Ordering 쪽에서는 User 엔터티에 대한 정보를 확인할 수 없다.
+    // 클라이언트 단에서 넘어오는 정보만 저장할 수 있다.
     @JoinColumn
     private Long userId;
 
@@ -38,5 +35,6 @@ public class Ordering {
 
     @OneToMany(mappedBy = "ordering", cascade = CascadeType.PERSIST)
     private List<OrderDetail> orderDetails;
+
 
 }

@@ -90,19 +90,17 @@ public class ProductService {
 
     public ProductResDto getProductInfo(Long prodId) {
         Product product = productRepository.findById(prodId).orElseThrow(
-                () -> new EntityNotFoundException("product with id: " + prodId + " not found")
+                () -> new EntityNotFoundException("Product with id: " + prodId + " not found")
         );
 
         return product.fromEntity();
     }
 
-
-    public void updateStockQuantity(Long productId, int stockQuantity) {
-        Product foundProduct = productRepository.findById(productId).orElseThrow(
-                () -> new EntityNotFoundException("product with id: " + productId + " not found")
+    public void updateStockQuantity(Long prodId, int stockQuantity) {
+        Product foundProduct = productRepository.findById(prodId).orElseThrow(
+                () -> new EntityNotFoundException("Product with id: " + prodId + " not found")
         );
         foundProduct.setStockQuantity(stockQuantity);
         productRepository.save(foundProduct);
-
     }
 }

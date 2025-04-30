@@ -2,13 +2,11 @@ package com.playdata.orderingservice.ordering.dto;
 
 import com.playdata.orderingservice.common.auth.Role;
 import com.playdata.orderingservice.common.entity.Address;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter @ToString
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
