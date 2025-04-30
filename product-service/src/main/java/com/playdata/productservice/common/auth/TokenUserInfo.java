@@ -1,6 +1,5 @@
 package com.playdata.productservice.common.auth;
 
-import com.playdata.productservice.user.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
