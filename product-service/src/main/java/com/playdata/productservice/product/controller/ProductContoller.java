@@ -6,22 +6,17 @@ import com.playdata.productservice.product.dto.ProductSaveReqDto;
 import com.playdata.productservice.product.dto.ProductSearchDto;
 import com.playdata.productservice.product.entity.Product;
 import com.playdata.productservice.product.service.ProductService;
-import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -74,14 +69,14 @@ public class ProductContoller {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteProduct(@RequestParam("id") Long id)
-            throws Exception {
-        log.info("deleteProduct: {}", id);
+    public ResponseEntity<?> deleteProduct(@RequestParam("id") Long id) throws Exception {
+        log.info("/product/delete: DELETE, id: {}", id);
         productService.deleteById(id);
 
-        CommonResDto dto = new CommonResDto(HttpStatus.OK, "삭제 완료", id);
+        CommonResDto resDto
+                = new CommonResDto(HttpStatus.OK, "삭제 완료", id);
 
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(resDto);
     }
 
     // 단일 상품 조회
@@ -97,10 +92,12 @@ public class ProductContoller {
     }
 
     // 수량 업데이트
-    @PatchMapping("/updateQuantity")
-    public ResponseEntity<?> updateStockQuantity(@RequestParam Long prodId,
-            @RequestParam int stockQuantity) {
-        log.info("/product/updateQuantity: PUT, prodId: {}, stockQuantity: {}"
+    @PostMapping("/updateQuantity")
+    public ResponseEntity<?> updateStockQuantity(@RequestBody Map<String, String> map) {
+        Long prodId = Long.parseLong(map.get("productId"));
+        int stockQuantity = Integer.parseInt(map.get("stockQuantity"));
+
+        log.info("/product/updateQuantity: PATCH, prodId: {}, stockQuantity: {}"
                 , prodId, stockQuantity);
         productService.updateStockQuantity(prodId, stockQuantity);
         CommonResDto resDto
