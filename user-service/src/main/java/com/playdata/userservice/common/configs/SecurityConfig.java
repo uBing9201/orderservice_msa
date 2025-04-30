@@ -38,9 +38,11 @@ public class SecurityConfig {
             auth
 //                    .requestMatchers("/user/list").hasRole("ROLE_ADMIN")
                     .requestMatchers("/user/create",
-                            "/user/doLogin",
-                            "/user/refresh",
-                            "/user/findByEmail").permitAll()
+                                    "/user/doLogin",
+                                    "/user/refresh",
+                                    "/user/findByEmail",
+                                    "/user/health-check",
+                                    "/actuator/**").permitAll()
                     .anyRequest().authenticated();
         });
 
