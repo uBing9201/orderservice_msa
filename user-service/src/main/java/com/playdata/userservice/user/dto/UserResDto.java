@@ -2,13 +2,11 @@ package com.playdata.userservice.user.dto;
 
 import com.playdata.userservice.common.entity.Address;
 import com.playdata.userservice.user.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter @ToString
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -9,10 +9,6 @@ import com.playdata.userservice.user.dto.UserSaveReqDto;
 import com.playdata.userservice.user.entity.User;
 import com.playdata.userservice.user.service.UserService;
 import jakarta.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -21,12 +17,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user") // user 관련 요청은 /user로 시작한다고 가정.
@@ -41,7 +37,7 @@ public class UserController {
     private final RedisTemplate<String, Object> redisTemplate;
 
     // 기존에는 yml 값 가지고 올때 @Value를 사용해서 끌고 옴
-    // Environment 객체를 통해 yml에 있는 프로퍼티에 직접 접근이 가능하다.
+    // Environment 객체를 통해 yml에 있는 프로퍼티에 직접 접근이 가능합니다.
     private final Environment env;
 
     /*
@@ -178,6 +174,16 @@ public class UserController {
         msg += "aws.accessKey: " + env.getProperty("aws.accessKey");
         msg += "aws.secretKey: " + env.getProperty("aws.secretKey");
 
-        return null;
+        return msg;
     }
+
+
 }
+
+
+
+
+
+
+
+

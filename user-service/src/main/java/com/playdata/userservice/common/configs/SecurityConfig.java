@@ -41,8 +41,8 @@ public class SecurityConfig {
                                     "/user/doLogin",
                                     "/user/refresh",
                                     "/user/findByEmail",
-                                    "/user/health-check",
-                                    "/actuator/**").permitAll()
+                            "/user/health-check",
+                            "/actuator/**").permitAll()
                     .anyRequest().authenticated();
         });
 
@@ -58,3 +58,12 @@ public class SecurityConfig {
     }
 
 }
+
+
+
+
+
+
+
+
+

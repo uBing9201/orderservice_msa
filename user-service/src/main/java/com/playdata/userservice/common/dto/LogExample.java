@@ -12,7 +12,7 @@ public class LogExample {
         /*
         - 로그: 발생시간, 로그 레벨, 파일저장
         - 로그 라이브러리: logback, log4j, slf4j
-        - 로그 설정 : application.yml
+        - 로그 설정 : application.properties
 
         - 로그 레벨
         1. trace : 애플리케이션의 실행흐름 세부정보, 디버깅 목적
@@ -37,3 +37,12 @@ public class LogExample {
     }
 
 }
+
+
+
+
+
+
+
+
+

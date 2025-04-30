@@ -4,9 +4,10 @@ import com.playdata.userservice.user.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 // 역할: 토큰을 발급하고, 서명 위조를 검사하는 객체
@@ -100,3 +101,18 @@ public class JwtTokenProvider {
                 .build();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

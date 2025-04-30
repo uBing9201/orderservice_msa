@@ -1,8 +1,6 @@
 package com.playdata.productservice.common.configs;
 
 import jakarta.annotation.PostConstruct;
-import java.net.URL;
-import java.net.URLDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,6 +11,9 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.net.URL;
+import java.net.URLDecoder;
 
 // AWS에 연결해서 S3에 관련된 서비스를 실행하는 전용 객체
 @Component
@@ -76,13 +77,13 @@ public class AwsS3Config {
     // 버킷에 오브젝트를 지우기 위해서는 키값을 줘야 하는데
     // 우리가 가지고 있는 건 키가 아니라 url입니다.
 
-    // 우리가 가진 데이터: https://orderingservice-prod-image-9201.s3.ap-northeast-2.amazonaws.com/28c7e71f-8c3b-422a-8b7a-b9ac475f2961_IMG_4544.jpg
-    // 가공 결과: 28c7e71f-8c3b-422a-8b7a-b9ac475f2961_IMG_4544.jpg
+    // 우리가 가진 데이터: https://orderservice-prod-img8917.s3.ap-northeast-2.amazonaws.com/74b59c79-d5da-4d05-b99a-557f00b4da07_fileName.gif
+    // 가공 결과: 74b59c79-d5da-4d05-b99a-557f00b4da07_fileName.gif
     public void deleteFromS3Bucket(String imageUrl) throws Exception {
 
         URL url = new URL(imageUrl);
 
-        // getPath()를 통해 key값 앞에 "/"를 포함해서 제거
+        // getPath()를 통해 key값 앞에 "/"까지 포함해서 제거.
         String decodingKey = URLDecoder.decode(url.getPath(), "UTF-8");
         String key = decodingKey.substring(1); // 앞에 / 떼기
 
@@ -94,3 +95,13 @@ public class AwsS3Config {
         s3Client.deleteObject(request);
     }
 }
+
+
+
+
+
+
+
+
+
+

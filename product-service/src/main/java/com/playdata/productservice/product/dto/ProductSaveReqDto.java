@@ -1,15 +1,10 @@
 package com.playdata.productservice.product.dto;
 
 import com.playdata.productservice.product.entity.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter @Setter @ToString
+@Setter @Getter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,3 +26,11 @@ public class ProductSaveReqDto {
     }
 
 }
+
+
+
+
+
+
+
+

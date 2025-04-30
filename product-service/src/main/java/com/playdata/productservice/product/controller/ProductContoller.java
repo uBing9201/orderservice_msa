@@ -71,7 +71,7 @@ public class ProductContoller {
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteProduct(@RequestParam("id") Long id) throws Exception {
         log.info("/product/delete: DELETE, id: {}", id);
-        productService.deleteById(id);
+        productService.productDelete(id);
 
         CommonResDto resDto
                 = new CommonResDto(HttpStatus.OK, "삭제 완료", id);
@@ -92,7 +92,7 @@ public class ProductContoller {
     }
 
     // 수량 업데이트
-    @PatchMapping("/updateQuantity")
+    @PutMapping("/updateQuantity")
     public ResponseEntity<?> updateStockQuantity(@RequestBody ProductResDto dto) {
         Long prodId = dto.getId();
         int stockQuantity = dto.getStockQuantity();
@@ -105,3 +105,13 @@ public class ProductContoller {
     }
 
 }
+
+
+
+
+
+
+
+
+
+

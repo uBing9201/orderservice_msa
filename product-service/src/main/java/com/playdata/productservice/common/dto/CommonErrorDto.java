@@ -18,4 +18,6 @@ public class CommonErrorDto {
         this.statusCode = httpStatus.value();
         this.statusMessage = statusMessage;
     }
+
+
 }

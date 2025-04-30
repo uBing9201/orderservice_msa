@@ -7,10 +7,6 @@ import com.playdata.productservice.product.dto.ProductSearchDto;
 import com.playdata.productservice.product.entity.Product;
 import com.playdata.productservice.product.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,9 +78,9 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteById(Long id) throws Exception {
+    public void productDelete(Long id) throws Exception {
         Product product = productRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("product with id: " + id + " not found")
+                () -> new EntityNotFoundException("Product with id: " + id + " not found")
         );
 
         String imageUrl = product.getImagePath();
@@ -104,3 +105,12 @@ public class ProductService {
         productRepository.save(foundProduct);
     }
 }
+
+
+
+
+
+
+
+
+

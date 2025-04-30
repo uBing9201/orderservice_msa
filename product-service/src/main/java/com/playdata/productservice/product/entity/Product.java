@@ -2,17 +2,8 @@ package com.playdata.productservice.product.entity;
 
 import com.playdata.productservice.common.entity.BaseTimeEntity;
 import com.playdata.productservice.product.dto.ProductResDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter @ToString
 @NoArgsConstructor
@@ -46,3 +37,10 @@ public class Product extends BaseTimeEntity {
     }
 
 }
+
+
+
+
+
+
+

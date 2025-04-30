@@ -12,11 +12,19 @@ import com.playdata.orderingservice.ordering.entity.Ordering;
 import com.playdata.orderingservice.ordering.repository.OrderingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -25,13 +33,14 @@ import java.util.List;
 public class OrderingService {
 
     private final OrderingRepository orderingRepository;
+    private final RestTemplate restTemplate;
 
     // feign client 구현체 주입 받기
     private final UserServiceClient userServiceClient;
     private final ProductServiceClient productServiceClient;
 
     public Ordering createOrder(List<OrderingSaveReqDto> dtoList,
-            TokenUserInfo userInfo) {
+                                TokenUserInfo userInfo) {
 
         // Ordering 객체를 생성하기 위해 회원 정보를 얻어오자.
         // 우리가 가진 유일한 정보는 토큰 안에 들어있던 이메일 뿐입니다...
@@ -87,3 +96,10 @@ public class OrderingService {
         return orderingRepository.save(ordering);
     }
 }
+
+
+
+
+
+
+

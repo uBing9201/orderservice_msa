@@ -16,3 +16,12 @@ public interface ProductServiceClient {
     ResponseEntity<?> updateQuantity(@RequestBody ProductResDto productResDto);
 
 }
+
+
+
+
+
+
+
+
+

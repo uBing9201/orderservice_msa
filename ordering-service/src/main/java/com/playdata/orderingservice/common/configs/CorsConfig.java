@@ -19,3 +19,11 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowCredentials(true); // 인증 정보(JWT)를 포함한 요청을 허용할 것인가
     }
 }
+
+
+
+
+
+
+
+
