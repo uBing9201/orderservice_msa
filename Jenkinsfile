@@ -34,6 +34,7 @@ pipeline {
             if (changedFiles.any { it.startsWith(service + "/") }) {
               changedServices.add(service)
             }
+          }
 
 
           //변경된 서비스 이름을 모아놓은 리스트를 다른 스테이지에서도 사용하기 위해 환경 변수로 선언.
