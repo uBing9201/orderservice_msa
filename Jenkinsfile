@@ -1,3 +1,8 @@
+// 자주 사용되는 필요한 변수를 전역으로 선언하는 것도 가능.
+// 이후 쉘 스크립트에서 사용할 ECR 인증 헬퍼 이름
+def ecrLoginHelper = "docker-credential-ecr-login" // ECR credential helper 이름
+def deployHost = "172.31.10.176" // 배포 인스턴스의 private 주소
+
 pipeline {
   agent any
 
