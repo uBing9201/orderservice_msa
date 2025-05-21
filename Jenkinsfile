@@ -92,14 +92,14 @@ pipeline {
               echo "Building ${service}..."
               cd ${service}
               ./gradlew clean build -x test
-              // -x test 옵션은 테스트 코드를 제외하고 빌드하겠다는 의미
-              // CI 도중 빠르게 결과를 얻기 위해 테스트 제외
+              # -x test 옵션은 테스트 코드를 제외하고 빌드하겠다는 의미
+              # CI 도중 빠르게 결과를 얻기 위해 테스트 제외
 
               ls -al ./build/libs
-              // 빌드 결과물(JAR, WAR 등)이 잘 생성되었는지 확인
+              # 빌드 결과물(JAR, WAR 등)이 잘 생성되었는지 확인
 
               cd ..
-              // 작업 후 원래 위치로 복귀
+              # 작업 후 원래 위치로 복귀
             """
           }
         }
@@ -127,6 +127,7 @@ pipeline {
 
               # Docker 에게 push 명령을 내리면 지정된 URL 로 push 할 수 있게 설정.
               # 자동으로 로그인 도구를 쓰게 설정
+              mkdir -p ~/.docker
               echo '{"credHelpers": {"${ECR_URL}": "ecr-login"}}' > ~/.docker/config.json
 
               docker build -t ${service}:latest ${service}
