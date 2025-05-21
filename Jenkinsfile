@@ -12,7 +12,7 @@ pipeline {
     SERVICE_DIRS = "config-service,discovery-service,gateway-service,user-service,ordering-service,product-service"
     // 여러 개의 마이크로서비스 디렉토리 이름을 콤마(,)로 구분한 문자열.
     // 이후에 각 서비스가 수정되었는지 비교할 때 기준으로 사용함.
-    ECR_URL = "390844784325.dkr.ecr.ap-northeast-2.amazonaws.com/orderservice-image"
+    ECR_URL = "390844784325.dkr.ecr.ap-northeast-2.amazonaws.com"
     REGION = "ap-northeast-2"
   }
 
