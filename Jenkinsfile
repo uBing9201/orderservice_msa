@@ -108,9 +108,7 @@ pipeline {
 
     // 빌드된 서비스의 Docker 이미지 생성 및 AWS ECR로 push
     stage('Build Docker Image & Push to AWS ECR') {
-//       when {
-//         expression { env.CHANGED_SERVICES != "" } // 변경된 서비스가 있을 때만 실행
-//       }
+
       steps {
         script {
           // Jenkins에 등록된 AWS 자격 증명을 이용해 AWS CLI 명령어 실행 가능
@@ -142,9 +140,9 @@ pipeline {
 
     // EC2에 변경된 서비스 배포 (현재 비어 있음)
     stage('Deploy Changed Services to AWS EC2') {
-//       when {
-//         expression { env.CHANGED_SERVICES != "" }
-//       }
+      when {
+        expression { env.CHANGED_SERVICES != "" }
+      }
       steps {
         sshagent(credentials: ["deploy-key"]) {
           sh """
