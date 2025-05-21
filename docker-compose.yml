@@ -62,7 +62,7 @@ services:
 
   order-service:
     image: 390844784325.dkr.ecr.ap-northeast-2.amazonaws.com/ordering-service:latest
-    container_name: order-service
+    container_name: ordering-service
     networks:
       - msa-network
     depends_on:
