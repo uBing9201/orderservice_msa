@@ -114,25 +114,27 @@ pipeline {
       steps {
         script {
           // jenkins 에 저장된 credentials 를 사용하여 AWS 자격증명 설정
-          withAWS(region: "${REGION}", credentials: "aws-key")
-          def changedServices = env.CHANGED_SERVICES.split(",")
-          changedServices.each { service ->
-            sh """
-            # ECR 에 이미지를 push 하기 위해 인증 정보를 대신 검증해 주는 도구 다운로드
-            # /usr/local/bin/ 경로에 해당 파일을 이동
+          withAWS(region: "${REGION}", credentials: "aws-key") {
+            def changedServices = env.CHANGED_SERVICES.split(",")
+            changedServices.each { service ->
+              sh """
+              # ECR 에 이미지를 push 하기 위해 인증 정보를 대신 검증해 주는 도구 다운로드
+              # /usr/local/bin/ 경로에 해당 파일을 이동
 
-            curl -O https://amazon-ecr-credential-helper-releases.s3.us-east-2.amazonaws.com/0.4.0/linux-amd64/${ecrLoginHelper}
-            chmod +x ${ecrLoginHelper}
-            mv ${ecrLoginHelper} /usr/local/bin/
+              curl -O https://amazon-ecr-credential-helper-releases.s3.us-east-2.amazonaws.com/0.4.0/linux-amd64/${ecrLoginHelper}
+              chmod +x ${ecrLoginHelper}
+              mv ${ecrLoginHelper} /usr/local/bin/
 
-            # Docker 에게 push 명령을 내리면 지정된 URL 로 push 할 수 있게 설정.
-            # 자동으로 로그인 도구를 쓰게 설정
-            echo '{"credHelpers": {"${ECR_URL}": "ecr-login"}}' > ~/.docker/config.json
+              # Docker 에게 push 명령을 내리면 지정된 URL 로 push 할 수 있게 설정.
+              # 자동으로 로그인 도구를 쓰게 설정
+              echo '{"credHelpers": {"${ECR_URL}": "ecr-login"}}' > ~/.docker/config.json
 
-            docker build -t ${service}:latest ${service}
-            docker tag ${service}:latest ${ERC_URL}/${service}:latest
-            """
+              docker build -t ${service}:latest ${service}
+              docker tag ${service}:latest ${ERC_URL}/${service}:latest
+              """
+            }
           }
+
 
           // 이 부분은 아직 비어 있으며, 일반적으로 다음과 같은 로직이 들어감:
 
