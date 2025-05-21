@@ -103,7 +103,7 @@ pipeline {
         script {
           // Jenkins에 등록된 AWS 자격 증명을 이용해 AWS CLI 명령어 실행 가능
           withAWS(region: "${REGION}", credentials: "aws-key") {
-            def changedServices = env.CHANGED_SERVICES.split(",")
+            def changedServices = env.SERVICE_DIRS.split(",")
             changedServices.each { service ->
               sh """
               # ECR Credential Helper 다운로드 및 권한 설정
