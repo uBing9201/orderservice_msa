@@ -132,9 +132,7 @@ pipeline {
 
     // EC2에 변경된 서비스 배포 (현재 비어 있음)
     stage('Deploy Changed Services to AWS EC2') {
-//       when {
-//         expression { env.CHANGED_SERVICES != "" }
-//       }
+
       steps {
         sshagent(credentials: ["deploy-key"]) {
           sh """
