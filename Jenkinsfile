@@ -77,13 +77,10 @@ pipeline {
 
     stage('Build Changed Services') {
       // 변경된 서비스가 존재할 경우에만 실행되는 빌드 스테이지
-      when {
-        expression { env.CHANGED_SERVICES != "" }
-        // env.CHANGED_SERVICES 환경변수가 비어있지 않은 경우(true일 경우)만 해당 스테이지 실행
-      }
+
       steps {
         script {
-          def changedServices = env.CHANGED_SERVICES.split(",")
+          def changedServices = env.SERVICE_DIRS.split(",")
           // 문자열로 되어있는 CHANGED_SERVICES를 다시 리스트로 변환
 
           changedServices.each { service ->
