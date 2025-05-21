@@ -107,15 +107,12 @@ pipeline {
     }
 
     stage('Build Docker Image & Push to AWS ECR') {
-      // 변경된 서비스가 있을 경우에만 Docker 이미지 빌드 및 AWS ECR로 푸시
-      when {
-        expression { env.CHANGED_SERVICES != "" }
-      }
+
       steps {
         script {
           // jenkins 에 저장된 credentials 를 사용하여 AWS 자격증명 설정
           withAWS(region: "${REGION}", credentials: "aws-key") {
-            def changedServices = env.CHANGED_SERVICES.split(",")
+            def changedServices = env.SERVICE_DIRS.split(",")
             changedServices.each { service ->
               sh """
               # ECR 에 이미지를 push 하기 위해 인증 정보를 대신 검증해 주는 도구 다운로드
