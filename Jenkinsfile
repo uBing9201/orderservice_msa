@@ -78,6 +78,8 @@ pipeline {
       steps {
         sshagent(credentials: ["deploy-key"]) {
           sh """
+          ssh -o StrictHostKeyChecking=no ubuntu@${deployHost} 'mkdir -p /home/ubuntu/config-service/src/main/resources'
+
           scp -o StrictHostKeyChecking=no config-service/src/main/resources/application-dev.yml ubuntu@${deployHost}:/home/ubuntu/config-service/src/main/resources/application-dev.yml
 
           ssh -o StrictHostKeyChecking=no ubuntu@${deployHost} '
