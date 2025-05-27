@@ -9,7 +9,9 @@ import com.playdata.userservice.user.dto.UserResDto;
 import com.playdata.userservice.user.dto.UserSaveReqDto;
 import com.playdata.userservice.user.entity.User;
 import com.playdata.userservice.user.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -204,7 +206,9 @@ public class UserController {
 
     // 카카오 콜백 요청 처리
     @GetMapping("/kakao")
-    public void kakaoCallback(@RequestParam String code) {
+    public void kakaoCallback(@RequestParam String code,
+            // 응답을 평소처럼 주는게 아니라, 직접 커스텀해서 클라이언트에게 전잘
+            HttpServletResponse response) throws IOException {
         log.info("카카오 콜백 처리 시작! code: {}", code);
 
         // 인가코드로 액세스토큰 받기
@@ -212,7 +216,43 @@ public class UserController {
         // 엑세스 토큰으로 사용자 정보 받기
         KakaoUserDto dto = userService.getKakaoUserInfo(kakaoAccessToken);
         // 회원가입 or 로그인 처리
-        userService.findOrCreateKakaoUser(dto);
+        UserResDto resDto = userService.findOrCreateKakaoUser(dto);
+
+        // JWT 토큰 생성 ( 우리 사이트 로그인 유지를 위해. 사용자 정보를 위해. )
+        String token = jwtTokenProvider.createToken(resDto.getEmail(), resDto.getRole().toString());
+        String refreshToken = jwtTokenProvider.createRefreshToken(resDto.getEmail(), token);
+
+        // 리프레시 토큰 redis 에 저장
+        redisTemplate.opsForValue().set("user:refresh:" + resDto.getId(), refreshToken, 2, TimeUnit.MINUTES);
+
+        String html = String.format("""
+                <!DOCTYPE html>
+                <html>
+                <head><title>카카오 로그인 완료</title></head>
+                <body>
+                    <script>
+                        if (window.opener) {
+                            window.opener.postMessage({
+                                type: 'OAUTH_SUCCESS',
+                                token: '%s',
+                                id: '%s',
+                                role: '%s',
+                                provider: 'KAKAO'
+                            }, 'http://localhost:5174');
+                            window.close();
+                        } else {
+                            window.location.href = 'http://localhost:5174';
+                        }
+                    </script>
+                    <p>카카오 로그인 처리 중...</p>
+                </body>
+                </html>
+                """, token, resDto.getId(), resDto.getRole().toString());
+
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().write(html);
+
+
     }
 
 }
