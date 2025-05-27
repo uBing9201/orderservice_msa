@@ -72,12 +72,7 @@ public class CircuitDemoController {
                 results.add("요청 " + (i+1) + ": 예외 발생 - " + e.getMessage());
             }
 
-            // 요청간 살짝 딜레이 (좀 더 선명하게 보이게)
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+
         }
 
         return ResponseEntity.ok(results);

@@ -32,7 +32,7 @@ public class Ordering {
     @Setter
     private Long userId;
 
-    //    MSA에선 도메인별로 분리돼 있어서 FK처럼 다른 서비스의 ID를 바로 못 가져올 수도 있음.
+//    MSA에선 도메인별로 분리돼 있어서 FK처럼 다른 서비스의 ID를 바로 못 가져올 수도 있음.
 //    그러니까 서비스 간 통신 실패 상황을 대비해서 최소 식별자(email 같은 거)는
 //    자기 도메인 안에 보관하는 게 정석이다. (나중에 재처리에서 사용하기 위해 설정)
     private String userEmail;
