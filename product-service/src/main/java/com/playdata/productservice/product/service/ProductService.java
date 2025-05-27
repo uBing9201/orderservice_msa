@@ -63,16 +63,8 @@ public class ProductService {
     }
 
     public List<ProductResDto> productList(ProductSearchDto dto, Pageable pageable) {
-        Page<Product> products;
-        if (dto.getCategory() == null) {
-            products = productRepository.findAll(pageable);
-        } else if (dto.getCategory().equals("name")) {
-            products = productRepository.findByNameValue(dto.getSearchName(), pageable);
-        } else {
-            products = productRepository.findByCategoryValue(dto.getSearchName(), pageable);
-        }
 
-        List<Product> productList = products.getContent();
+        List<Product> productList = productRepository.productList(dto, pageable);
 
         return productList.stream()
                 .map(Product::fromEntity)
