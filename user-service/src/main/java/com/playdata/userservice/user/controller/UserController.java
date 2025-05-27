@@ -3,6 +3,7 @@ package com.playdata.userservice.user.controller;
 import com.playdata.userservice.common.auth.JwtTokenProvider;
 import com.playdata.userservice.common.dto.CommonErrorDto;
 import com.playdata.userservice.common.dto.CommonResDto;
+import com.playdata.userservice.common.dto.KakaoUserDto;
 import com.playdata.userservice.user.dto.UserLoginReqDto;
 import com.playdata.userservice.user.dto.UserResDto;
 import com.playdata.userservice.user.dto.UserSaveReqDto;
@@ -206,7 +207,12 @@ public class UserController {
     public void kakaoCallback(@RequestParam String code) {
         log.info("카카오 콜백 처리 시작! code: {}", code);
 
-        userService.getKakaoAccessToken(code);
+        // 인가코드로 액세스토큰 받기
+        String kakaoAccessToken = userService.getKakaoAccessToken(code);
+        // 엑세스 토큰으로 사용자 정보 받기
+        KakaoUserDto dto = userService.getKakaoUserInfo(kakaoAccessToken);
+        // 회원가입 or 로그인 처리
+        userService.findOrCreateKakaoUser(dto);
     }
 
 }

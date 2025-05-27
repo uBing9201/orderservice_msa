@@ -46,6 +46,7 @@ public class SecurityConfig {
                             "/user/health-check",
                             "/user/email-valid",
                             "/user/verify",
+                            "/user/kakao",
                             "/actuator/**").permitAll()
                     .anyRequest().authenticated();
         });
