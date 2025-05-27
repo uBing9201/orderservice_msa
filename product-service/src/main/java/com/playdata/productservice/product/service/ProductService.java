@@ -6,10 +6,11 @@ import com.playdata.productservice.product.dto.ProductSaveReqDto;
 import com.playdata.productservice.product.dto.ProductSearchDto;
 import com.playdata.productservice.product.entity.Product;
 import com.playdata.productservice.product.repository.ProductRepository;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.playdata.productservice.product.entity.QProduct.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,6 +32,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final AwsS3Config s3Config;
+    private final JPAQueryFactory factory;
 
     public Product productCreate(ProductSaveReqDto dto) throws IOException {
 
@@ -63,12 +67,46 @@ public class ProductService {
     }
 
     public List<ProductResDto> productList(ProductSearchDto dto, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
 
-        List<Product> productList = productRepository.productList(dto, pageable);
+        if (dto.getCategory() != null) {
+            if (dto.getCategory().equals("name")) {
+                builder.and(product.name.contains(dto.getSearchName()));
+            }
+
+            if (dto.getCategory().equals("category")) {
+                builder.and(product.category.contains(dto.getSearchName()));
+            }
+        }
+
+        List<Product> products = factory
+                .selectFrom(product)
+                .where(builder)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return products.stream()
+                .map(Product::fromEntity)
+                .collect(Collectors.toList());
+
+        /*
+        Page<Product> products;
+        if (dto.getCategory() == null) {
+            products = productRepository.findAll(pageable);
+        } else if (dto.getCategory().equals("name")) {
+            products = productRepository.findByNameValue(dto.getSearchName(), pageable);
+        } else {
+            products = productRepository.findByCategoryValue(dto.getSearchName(), pageable);
+        }
+
+        List<Product> productList = products.getContent();
 
         return productList.stream()
                 .map(Product::fromEntity)
                 .collect(Collectors.toList());
+
+        */
     }
 
     public void productDelete(Long id) throws Exception {
