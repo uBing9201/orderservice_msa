@@ -1,14 +1,11 @@
 package com.playdata.orderingservice.ordering.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.playdata.orderingservice.ordering.entity.Ordering;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter @Setter @ToString
 @NoArgsConstructor
@@ -21,6 +18,7 @@ public class OrderNotificationEvent {
     private Long customerId;  // 고객 ID (추가 조회용)
     private String orderStatus;  // 주문 상태 (ORDERED, CANCELED 등)
     private int totalItems;  // 총 상품 개수 (간단한 요약 정보)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime orderTime; // 주문 시간 (언제 주문했는지)
     private List<OrderItemInfo> orderItems; // 주문 상품 목록 (상세 정보)
 
@@ -33,9 +31,9 @@ public class OrderNotificationEvent {
         private int quantity; // 몇 개 주문했는지
     }
 
-    // Ordering 엔티티에서 이벤트 생성
+    // Ordering 엔티티에서 이벤트 DTO 생성
     // 주문이 완료되면, 완료된 주문 정보 객체(Ordering)을 기반으로
-    // 알림 메세지에 세팅하고 싶은 값들만 골라서 dto 생성 후
+    // 알림 메세지에 세팅하고 싶은 값들만 골라서 DTO 생성 후 RabbitMQ에게 전달.
     public static OrderNotificationEvent fromOrdering(Ordering ordering) {
         // OrderDetail 리스트를 OrderItemInfo 리스트로 변환
         List<OrderItemInfo> items = ordering.getOrderDetails().stream()
@@ -55,5 +53,6 @@ public class OrderNotificationEvent {
                 .orderItems(items)
                 .build();
     }
+
 
 }
