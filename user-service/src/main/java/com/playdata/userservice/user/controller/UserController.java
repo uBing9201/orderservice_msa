@@ -243,7 +243,7 @@ public class UserController {
                                 id: '%s',
                                 role: '%s',
                                 provider: 'KAKAO'
-                            }, 'http://localhost:5173');
+                            }, 'http://localhost:5174');
                             window.close();
                         } else {
                             window.location.href = 'http://localhost:5173';
