@@ -35,6 +35,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
 	testImplementation 'org.springframework.security:spring-security-test'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -57,7 +59,6 @@ dependencies {
 
 	// 자바 언어를 통해 smtp 통신을 할 수 있게 하는 라이브러리
 	implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
-
 }
 
 dependencyManagement {

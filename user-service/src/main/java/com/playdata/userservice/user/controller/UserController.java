@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/user") // user 관련 요청은 /user로 시작한다고 가정.
 @RequiredArgsConstructor
 @Slf4j
+@RefreshScope
 public class UserController {
 
     // 컨트롤러는 서비스에 의존하고 있다. (요청과 함께 전달받은 데이터를 서비스에게 넘겨야 함!)
@@ -196,10 +198,11 @@ public class UserController {
     @GetMapping("/health-check")
     public String healthCheck() {
         String msg = "It's Working in User-service!\n";
-        msg += "token.expiration_time: " + env.getProperty("token.expiration_time");
-        msg += "token.secret: " + env.getProperty("token.secret");
-        msg += "aws.accessKey: " + env.getProperty("aws.accessKey");
-        msg += "aws.secretKey: " + env.getProperty("aws.secretKey");
+        msg += "\ntoken.expiration_time: " + env.getProperty("token.expiration_time");
+        msg += "\ntoken.secret: " + env.getProperty("token.secret");
+        msg += "\naws.accessKey: " + env.getProperty("aws.accessKey");
+        msg += "\naws.secretKey: " + env.getProperty("aws.secretKey");
+        msg += "\nmessage: " + env.getProperty("message");
 
         return msg;
     }
