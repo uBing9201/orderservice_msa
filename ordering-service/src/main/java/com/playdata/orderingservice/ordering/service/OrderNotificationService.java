@@ -46,5 +46,6 @@ public class OrderNotificationService {
             // 알림은 부가 기능이니까 실패해도 주문은 성공해야 함.
         }
     }
-    
+
+
 }
