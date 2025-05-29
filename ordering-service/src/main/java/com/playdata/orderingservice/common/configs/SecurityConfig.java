@@ -5,7 +5,6 @@ import com.playdata.orderingservice.common.exception.CustomAuthenticationEntryPo
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,7 +42,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
             auth
 //                    .requestMatchers("/user/list").hasRole("ROLE_ADMIN")
-                    .requestMatchers("/actuator/**", "/demo/**").permitAll()
+                    .requestMatchers("/actuator/**", "/demo/**", "/subscribe").permitAll()
                     .anyRequest().authenticated();
         });
         // "/user/create", "/user/doLogin"은 인증 검사가 필요 없다고 설정했고,
