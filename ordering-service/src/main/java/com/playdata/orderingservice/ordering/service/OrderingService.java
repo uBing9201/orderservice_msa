@@ -129,18 +129,18 @@ public class OrderingService {
                 () -> userServiceClient.findByEmail(email)
 //                    throwable -> {
 //                        // 장애가 발생한 상황에 실행할 객체 선언 (fallback)
-                // 이후의 로직을 계속 실행하고 싶을 때 사용.
-                // 여기에 작성하는 로직으로 정상 호출을 완벽하게 대체할 수 있을 때 사용.
-                // 우리의 상황 -> user-service에서 장애 발생하면 id를 받아올 방법이 아예 없음;;
-                // 정상 호출을 완벽하게 대체할 수 없음. try-catch로 주문 흐름을 보류쪽으로 빼서 작업.
+                      // 이후의 로직을 계속 실행하고 싶을 때 사용.
+                      // 여기에 작성하는 로직으로 정상 호출을 완벽하게 대체할 수 있을 때 사용.
+                      // 우리의 상황 -> user-service에서 장애 발생하면 id를 받아올 방법이 아예 없음;;
+                      // 정상 호출을 완벽하게 대체할 수 없음. try-catch로 주문 흐름을 보류쪽으로 빼서 작업.
 //                    }
         );
         return byEmail.getResult();
     }
 
     public void processOrderToProductService(List<OrderingSaveReqDto> dtoList,
-            Long userId,
-            Ordering ordering
+                                             Long userId,
+                                             Ordering ordering
     ) {
         log.info("주문 객체 ID: {}", ordering.getId());
         log.info("주문 상태: {}", ordering.getOrderStatus());
@@ -355,3 +355,10 @@ public class OrderingService {
 
 
 }
+
+
+
+
+
+
+
