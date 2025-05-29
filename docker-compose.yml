@@ -92,6 +92,20 @@ services:
     networks:
       - msa-network
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # AMQP 포트
+      - "15672:15672" # 관리 UI 포트
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+    networks:
+      - msa-network
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
   mysql-db:
     image: mysql:8
     ports:
