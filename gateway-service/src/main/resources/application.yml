@@ -40,10 +40,10 @@ spring:
             postLogger: true
       routes:
         - id: user-service
-          #          uri: lb://USER-SERVICE
+          uri: lb://USER-SERVICE
           # k8s 클러스터 내에서 다른 서비스를 지목하기위한 DNS 명명 규칙.
           # <service-name>.<namespace>.svc.cluster.local:port
-          uri: http://user-service.default.svc.cluster.local:8081
+#          uri: http://user-service.default.svc.cluster.local:8081
           predicates:
             - Path=/user-service/user/doLogin
             - Method=POST
@@ -52,7 +52,8 @@ spring:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
         - id: user-service
-          uri: http://user-service.default.svc.cluster.local:8081
+          uri: lb://USER-SERVICE
+#          uri: http://user-service.default.svc.cluster.local:8081
           predicates:
             - Path=/user-service/**
           filters:
